@@ -12,7 +12,7 @@ Here are the possible requests that can be done using this API and the format of
 
 To print the result of the request, you have to
 ```
-print(response.text)
+print(response.json())
 ```
 1. The following request returns all the properties from the city
 ```
