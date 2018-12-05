@@ -39,7 +39,7 @@ def recherche():
     if 'city' in informations:
         city = informations['city'].lower()
         properties = Property.query.filter_by(city=city).all()
-        return jsonify(property.serialize for property in properties)
+        return jsonify([property.serialize for property in properties])
     else:
         return jsonify({'error': 'City is missing'})
 
