@@ -10,6 +10,10 @@ A Real-Estate API created using Flask and SQL-Alchemy
   
 Here are the possible requests that can be done using this API and the format of the JSON that needs to be sent:
 
+To print the result of the request, you have to
+```
+print(response.text)
+```
 1. The following request returns all the properties from the city
 ```
 import requests
