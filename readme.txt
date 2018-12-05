@@ -1,7 +1,17 @@
+# Real-Estate API
+
+A Real-Estate API created using Flask and SQL-Alchemy
+
+### How to use
+
+  1. Install all packages in requirements.txt
+  2. Run main.py
+  3. Execute the requests you want
+  
 Here are the possible requests that can be done using this API and the format of the JSON that needs to be sent:
 
 1. The following request returns all the properties from the city
-
+```
 import requests
 url = "http://127.0.0.1:5000/api/search"
 payload = "{\n\t\"city\": <Name of the city>\n}"
@@ -10,9 +20,9 @@ headers = {
     'cache-control': "no-cache"
     }
 response = requests.request("GET", url, data=payload, headers=headers)
-
+```
 2. The following request creates a new user and returns a JSON with all information except login and password
-
+```
 import requests
 url = "http://127.0.0.1:5000/api/add_user"
 payload = "{\n\t\"login\": <Login of the new user>,\n\t\"password\" : <Password of the new user>,\n\t\"name\": <Name of the user> (Optionnal),\n\t\"firstname\": <Firstname of the user> (Optionnal),\n\t\"birthdate\": <Birthdate of the user as a string with this format 'dd_mm_aaaa'> (Optionnal)\n}"
@@ -21,8 +31,9 @@ headers = {
     'cache-control': "no-cache"
     }
 response = requests.request("POST", url, data=payload, headers=headers)
-
+```
 Example of answer:
+```
 {
     "Birthdate": "04-08-1950",
     "Firstname": "Test",
@@ -30,9 +41,9 @@ Example of answer:
     "Name": "Test",
     "Properties": []
 }
-
+```
 3. The following request returns a token to allow the user to authentificate without his login and password
-
+```
 import requests
 from requests.auth import HTTPBasicAuth
 url = "http://127.0.0.1:5000/api/token"
@@ -43,14 +54,15 @@ headers = {
     }
 response = requests.request("GET", url, data=payload, headers=headers, auth=HTTPBasicAuth(<login>, <password>))
 print(response.text)
-
+```
 Example of answer:
+```
 {
   "token": "eyJhbGciOiJIUzUxMiIsImlhdCI6MTU0NDAyMDQ4OSwiZXhwIjoxNTQ0MDI0MDg5fQ.eyJpZCI6MX0.-uQo8MbMP-_MI_Hvty5QtBDM593iG2Yo_q3oob_RFhLiY8UDDdkEBg_7yCTc_tdTbuWOHMOyxwfKxUkS8EiLjg"
 }
-
+```
 4. The following request returns the list of all users
-
+```
 import requests
 url = "http://127.0.0.1:5000/api/all_users"
 payload = ""
@@ -58,8 +70,9 @@ headers = {
     'cache-control': "no-cache"
     }
 response = requests.request("GET", url, data=payload, headers=headers)
-
+```
 Example of answer:
+```
 [
     {
         "Birthdate": null,
@@ -69,9 +82,9 @@ Example of answer:
         "Properties": []
     }
 ]
-
+```
 5. The following request edits an existing user and returns a JSON with all information except login and password
-
+```
 import requests
 from requests.auth import HTTPBasicAuth
 url = "http://127.0.0.1:5000/api/edit_user"
@@ -82,8 +95,9 @@ headers = {
     'Authorization': "Basic VGVzdDpUZXN0Ymlz"
     }
 response = requests.request("PUT", url, data=payload, headers=headers, auth=HTTPBasicAuth(<login or token>, <password (no need if token>)
-
+```
 Example of answer:
+```
 {
     "Birthdate": "04-08-1950",
     "Firstname": "Test",
@@ -91,9 +105,9 @@ Example of answer:
     "Name": "Test",
     "Properties": []
 }
-
+```
 6. The following request adds a property to the database and returns a JSON with all information about it
-
+```
 import requests
 from requests.auth import HTTPBasicAuth
 url = "http://127.0.0.1:5000/api/add_property"
@@ -104,8 +118,9 @@ headers = {
     'Authorization': "Basic VGVzdDpUZXN0Ymlz"
     }
 response = requests.request("GET", url, data=payload, headers=headers, auth=HTTPBasicAuth(<login or token>, <password (no need if token>)
-
+```
 Example of answer:
+```
 {
     "Address": "12 Baker Street",
     "City": "Paris",
@@ -132,10 +147,10 @@ Example of answer:
     ],
     "Type": "Apartment"
 }
-
+```
 7. The following request edits an existing property and returns a JSON with all information about it
 In this request, there are 3 types of action possible concerning the rooms. There is, in this example, one room for each action.
-
+```
 import requests
 from requests.auth import HTTPBasicAuth
 url = "http://127.0.0.1:5000/api/add_property"
@@ -145,10 +160,10 @@ headers = {
     'Authorization': "Basic VGVzdDpUZXN0Ymlz",
     'cache-control': "no-cache"
     }
-
 response = requests.request("POST", url, data=payload, headers=headers, auth=HTTPBasicAuth(<login or token>, <password (no need if token>)
-
+```
 Example of answer:
+```
 {
     "Address": "12 Baker Street",
     "City": "Paris",
@@ -175,22 +190,21 @@ Example of answer:
     ],
     "Type": "Apartment"
 }
-
+```
 8. The following request returns the list of all properties owned by the user
-
+```
 import requests
 from requests.auth import HTTPBasicAuth
 url = "http://127.0.0.1:5000/api/get_properties"
-
 payload = ""
 headers = {
     'Authorization': "Basic VGVzdDpUZXN0Ymlz",
     'cache-control': "no-cache"
     }
-
 response = requests.request("GET", url, data=payload, headers=headers, auth=HTTPBasicAuth(<login or token>, <password (no need if token>)
-
+```
 Example of answer:
+```
 [
     {
         "Address": "14 boulevard",
@@ -219,4 +233,4 @@ Example of answer:
         "Type": "Maison"
     }
 ]
-
+```
