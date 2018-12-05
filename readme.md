@@ -23,32 +23,34 @@ response = requests.request("GET", url, data=payload, headers=headers)
 ```
 Example of answer:
 ```
-{
-    "Address": "12 Baker Street",
-    "City": "Paris",
-    "Description": "Beautiful",
-    "ID": 1,
-    "Name": "Test",
-    "Owner": {
-        "Birthdate": null,
-        "Firstname": "Test",
-        "ID": 1,
-        "Name": "Test"
-    },
-    "Rooms": [
-        {
-            "Area": 14,
-            "Description": "Huge",
-            "ID": 1
-        },
-        {
-            "Area": 2,
-            "Description": "Small",
-            "ID": 2
-        }
-    ],
-    "Type": "Apartment"
-}
+[
+	{
+	    "Address": "12 Baker Street",
+	    "City": "Paris",
+	    "Description": "Beautiful",
+	    "ID": 1,
+	    "Name": "Test",
+	    "Owner": {
+		"Birthdate": null,
+		"Firstname": "Test",
+		"ID": 1,
+		"Name": "Test"
+	    },
+	    "Rooms": [
+		{
+		    "Area": 14,
+		    "Description": "Huge",
+		    "ID": 1
+		},
+		{
+		    "Area": 2,
+		    "Description": "Small",
+		    "ID": 2
+		}
+	    ],
+	    "Type": "Apartment"
+	}
+]
 ```
 
 2. The following request creates a new user and returns a JSON with all information except login and password
