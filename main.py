@@ -1,14 +1,16 @@
 from flask import Flask, jsonify, request, g
 from flask_httpauth import HTTPBasicAuth
+import connexion
 
 
 
-app = Flask(__name__)
+app = connexion.FlaskApp(__name__)
+application = app.app
 auth = HTTPBasicAuth()
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
-app.config['SQLAlCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SECRET_KEY'] = 'Arcane'
+application.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
+application.config['SQLAlCHEMY_TRACK_MODIFICATIONS'] = False
+application.config['SECRET_KEY'] = 'Arcane'
 
 salt = '$*%klJf9'
 

@@ -3,15 +3,15 @@ from main import app
 from itsdangerous import (TimedJSONWebSignatureSerializer as
                           Serializer, BadSignature, SignatureExpired)
 
-db = SQLAlchemy(app)
+db = SQLAlchemy(app.app)
 salt = '$*%klJf9'
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.Text)
     firstname = db.Column(db.Text)
-    birthdate = db.Column(db.Date),
-    login = db.Column(db.Text);
+    birthdate = db.Column(db.Date)
+    login = db.Column(db.Text)
     password = db.Column(db.Integer)
     properties = db.relationship('Property', backref='owner', cascade='delete', lazy='dynamic')
 
