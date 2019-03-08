@@ -278,7 +278,7 @@ definitions:
           birthdate:
             type: string
       rooms:
-        type: string
+        type: array
         items:
           $ref: '#/definitions/Room'
   Room:
