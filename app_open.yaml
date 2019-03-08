@@ -282,7 +282,7 @@ components:
             birthdate:
               type: string
         rooms:
-          type: string
+          type: array
           items:
             $ref: '#/components/schemas/Room'
     Room:
