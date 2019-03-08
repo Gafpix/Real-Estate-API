@@ -1,0 +1,313 @@
+swagger: '2.0'
+
+info:
+  title: Real Estate API
+  version: 1.0.0
+
+basePath: /api
+securityDefinitions:
+    basicAuth:
+      type: basic
+
+consumes: 
+  - application/json
+produces: 
+  - application/json
+
+tags:
+  - name: Properties
+    description: Everything about the properties
+  - name: Users
+    description: Everything about users
+
+paths:
+  /token:
+    get:
+      security:
+        - basicAuth: []
+      tags:
+        - Users
+      produces: 
+        - application/json
+      operationId: methods.methods.get_auth_token
+      summary: Returns an access token
+      responses:
+        200:
+          description: A JSON with the token access
+          schema:
+            type: object
+            properties:
+              token:
+                type: string
+  /search:
+    post:
+      operationId: methods.methods.recherche
+      tags:
+        - Properties
+      produces: 
+        - application/json
+      consumes: 
+        - application/json
+      summary: Returns all properties in the provided city
+      parameters:
+        - in: body
+          required: true
+          name: city
+          schema:
+            type: object
+            properties:
+              city:
+                type: string
+      responses:
+        200:
+          description: List of all found properties
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Property'
+        404:
+          description: Error message
+          schema:
+            $ref: '#/definitions/Error'
+  /add_user:
+    post:
+      tags:
+        - Users
+      operationId: methods.methods.add_user
+      summary: Adds a new user
+      consumes: 
+        - application/json
+      produces: 
+        - application/json
+      parameters:
+        - in: body
+          required: true
+          name: user
+          schema:
+            type: object
+            properties:
+              login:
+                type: string
+              password:
+                type: string
+              birthdate:
+                type: string
+              name:
+                type: string
+              firstname:
+                type: string
+      responses:
+        200:
+          description: Summary of the new user
+          schema:
+            $ref: '#/definitions/User'
+        404:
+          description: Error message
+          schema:
+            $ref: '#/definitions/Error'
+        405:
+          description: Error message
+          schema:
+            $ref: '#/definitions/Error'
+  /all_users:
+    get:
+      tags:
+        - Users
+      produces: 
+        - application/json
+      operationId: methods.methods.get_users
+      summary: Returns all users
+      responses:
+        200:
+          description: List of all users
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/User'
+  /get_user:
+    get:
+      tags:
+        - Users
+      security:
+        - basicAuth: []
+      produces: 
+        - application/json
+      operationId: methods.methods.get_user
+      summary: Returns the current user
+      responses:
+        200:
+          description: Description of the current user
+          schema:
+            $ref: '#/definitions/User'
+  /edit_user:
+    put:
+      tags:
+        - Users
+      consumes: 
+        - application/json
+      produces: 
+        - application/json
+      security:
+        - basicAuth: []
+      summary: Edits the current user
+      operationId: methods.methods.edit_user
+      parameters:
+        - in: body
+          required: true
+          name: user
+          schema:
+            type: object
+            properties:
+              password:
+                type: string
+              birthdate:
+                type: string
+              name:
+                type: string
+              firstname:
+                type: string
+      responses:
+        200:
+          description: Description of the current user
+          schema:
+            $ref: '#/definitions/User'
+  /add_property:
+    post:
+      tags:
+        - Properties
+      security:
+        - basicAuth: []
+      consumes: 
+        - application/json
+      produces: 
+        - application/json
+      summary: Adds a new property for the current user
+      operationId: methods.methods.add_property
+      parameters:
+        - in: body
+          required: true
+          name: property
+          schema:
+            $ref: '#/definitions/Property'
+      responses:
+        200:
+          description: Description of the new property
+          schema:
+            $ref: '#/definitions/Property'
+        404:
+          description: Error message
+          schema:
+            $ref: '#/definitions/Error'
+        405:
+          description: Error message
+          schema:
+            $ref: '#/definitions/Error'
+  /edit_property:
+    put:
+      tags:
+        - Properties
+      security:
+        - basicAuth: []
+      consumes: 
+        - application/json
+      produces: 
+        - application/json
+      summary: Edits the property whose ID matches the provided ID
+      operationId: methods.methods.edit_property
+      parameters:
+        - in: body
+          required: true
+          name: property
+          schema:
+            $ref: '#/definitions/Property'
+      responses:
+        200:
+          description: Description of the modified property
+          schema:
+            $ref: '#/definitions/Property'
+        404:
+          description: Error message
+          schema:
+            $ref: '#/definitions/Error'
+        405:
+          description: Error message
+          schema:
+            $ref: '#/definitions/Error'
+  /get_properties:
+    get:
+      tags:
+        - Properties
+      security:
+        - basicAuth: []  
+      produces: 
+        - application/json
+      operationId: methods.methods.get_properties
+      summary: Returns all properties of the current user
+      responses:
+        200:
+          description: List of all properties of the current user
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Property'  
+definitions:
+  Property:
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      type:
+        type: string
+      description:
+        type: string
+      city:
+        type: string
+      address:
+        type: string
+      owner:
+        type: object
+        properties:
+          id:
+            type: integer
+          name:
+            type: string
+          firstname:
+            type: string
+          birthdate:
+            type: string
+      rooms:
+        type: string
+        items:
+          $ref: '#/definitions/Room'
+  Room:
+    type: object
+    properties:
+      id:
+        type: integer
+      area:
+        type: number
+      description:
+        type: string
+  User:
+    type: object
+    properties:
+      birthdate:
+        type: string
+      firstname:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      properties:
+        type: array
+        items:
+          $ref: '#/definitions/Property'
+  Error:
+    type: object
+    properties:
+      error:
+        type: string
+

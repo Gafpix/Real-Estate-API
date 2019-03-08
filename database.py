@@ -1,9 +1,9 @@
 from flask_sqlalchemy import SQLAlchemy, event
-from main import app
+from main import application
 from itsdangerous import (TimedJSONWebSignatureSerializer as
                           Serializer, BadSignature, SignatureExpired)
 
-db = SQLAlchemy(app.app)
+db = SQLAlchemy(application)
 salt = '$*%klJf9'
 
 class User(db.Model):
@@ -19,11 +19,11 @@ class User(db.Model):
     def serialize(self):
         """Converts the object to make it serializable"""
         return {
-            'ID': self.id,
-            'Name': self.name,
-            'Firstname': self.firstname,
-            'Birthdate': self.serialize_date,
-            'Properties': self.serialize_properties
+            'id': self.id,
+            'name': self.name,
+            'firstname': self.firstname,
+            'birthdate': self.serialize_date,
+            'properties': self.serialize_properties
         }
 
     @property
@@ -41,7 +41,7 @@ class User(db.Model):
 
     @staticmethod
     def verify_auth_token(token):
-        s = Serializer(app.config['SECRET_KEY'])
+        s = Serializer(application.config['SECRET_KEY'])
         try:
             data = s.loads(token)
         except SignatureExpired:
@@ -74,24 +74,24 @@ class Property(db.Model):
     def serialize(self):
         """Converts the object to make it serializable"""
         return {
-            'ID': self.id,
-            'Name': self.name,
-            'Type': self.type,
-            'Description': self.description,
-            'City': self.city,
-            'Address': self.address,
-            'Owner': self.serialize_owner,
-            'Rooms': self.serialize_rooms
+            'id': self.id,
+            'name': self.name,
+            'type': self.type,
+            'description': self.description,
+            'city': self.city,
+            'address': self.address,
+            'owner': self.serialize_owner,
+            'rooms': self.serialize_rooms
         }
 
     @property
     def serialize_owner(self):
         value = self.owner
         return {
-            'ID' : value.id,
-            'Name': value.name,
-            'Firstname': value.firstname,
-            'Birthdate': value.serialize_date
+            'id' : value.id,
+            'name': value.name,
+            'firstname': value.firstname,
+            'birthdate': value.serialize_date
         }
 
     @property
@@ -109,19 +109,7 @@ class Room(db.Model):
     def serialize(self):
         """Converts the object to make it serializable"""
         return {
-            'ID': self.id,
-            'Area': self.area,
-            'Description': self.description
-        }
-
-    @property
-    def serialize_property(self):
-        value = self.property
-        return {
-            'ID': value.id,
-            'Nom': value.name,
-            'Type': value.type,
-            'Description': value.description,
-            'Ville': value.city,
-            'Proprietaire': value.serialize_owner
+            'id': self.id,
+            'area': self.area,
+            'description': self.description
         }
